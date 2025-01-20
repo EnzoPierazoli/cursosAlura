@@ -1,6 +1,7 @@
 alert("Boas vindas ao jogo do numero secreto");
 
 let numeroMaximo = 100;
+document.getElementById('numeroMaximo').textContent=numeroMaximo;
 let numeroSecreto = parseInt(Math.random() * (numeroMaximo + 1));
 console.log(numeroSecreto);
 let chute;
@@ -12,14 +13,13 @@ while (chute != numeroSecreto) {
 
     if (chute == numeroSecreto) {
         break;
-    } else {
-        if (chute > numeroSecreto) {
-            alert(`O numero secreto e menor que o ${chute}`);
-        } else {
-            alert(`O numero secreto e maior que ${chute}`);
-        }
-        tentativas++;
     }
+    if (chute > numeroSecreto) {
+        alert(`O numero secreto e menor que o ${chute}`);
+    } else {
+        alert(`O numero secreto e maior que ${chute}`);
+        }
+        tentativas++
 }
 
 let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa';
