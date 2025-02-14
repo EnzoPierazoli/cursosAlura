@@ -3,27 +3,27 @@ document.getElementById('lista-produtos').innerHTML = '';
 document.getElementById('valor-total').textContent = 'R$ 0';
 
 function adicionar() {
-    // recuperar valores (nome do podruto, qnt, valor)
+        // recuperar valores (nome do podruto, qnt, valor)
+        
+        const { nomeProduto, quantidade, valorUnitario } = recuperarDadosHTML();
+        
+        //calcular o preco
+        
+        calcularValorTotal(valorUnitario, quantidade);
+        
+        // add no carrinho
+        
+        adicionarCarrinho(nomeProduto, quantidade, valorTotal);
+        
+        // atualiar o valor total
+        
+        atualizarValorTotal();
+        
+        // zerar contador de quantidade
+        
+        document.getElementById('quantidade').value = 0
+    }
 
-    const { nomeProduto, quantidade, valorUnitario } = recuperarDados();
-
-    //calcular o preco
-
-    calcularValorTotal(valorUnitario, quantidade);
-
-    // add no carrinho
-
-    adicionarCarrinho(nomeProduto, quantidade, valorTotal);
-
-    // atualiar o valor total
-
-    atualizarValorTotal();
-
-    // zerar contador de quantidade
-
-    document.getElementById('quantidade').value = 0
-
-}
 
 function limpar() {
     totalCarrinho = 0
@@ -36,7 +36,15 @@ function recuperarDadosHTML() {
     let nomeProduto = Produto.split('-')[0];
     let valorUnitario = Produto.split('R$')[1];
     let quantidade = document.getElementById('quantidade').value;
+
+    // Validacao se a quantidade e valida
+    
+    if (quantidade < 1) {
+        alert("Você deve adicionar uma quantidade válida! Tente novamente")
+    }
+    else {
     return { nomeProduto, quantidade, valorUnitario };
+    }
 }
 
 function calcularValorTotal(valorUnitario, quantidade) {
