@@ -1,38 +1,65 @@
-let listaSorteados = [];
-let resultadoSorteio = [];
+let listaNomes = []
+let nomesSorteados = [];
 
 function adicionar() {
-    const { nome, lista} = pegarInfosDoHTML();
-    lista.innerHTML += `<p id="lista-amigos">${nome} </p>`;
-    listaSorteados.push(nome);
-    
+    const { nome, lista } = pegarInfosDoHTML();
+    if (nome === '') {
+        alert('É necessário digitar um nome para adiciona-lo')
+    } else if (listaNomes.includes(nome)) {
+        alert('Nome repetido, insira outro nome')
+    } else {
+        lista.innerHTML += `<p id="lista-amigos">${nome} </p>`;
+        listaNomes.push(nome);
+    }
+
 }
 
 function sortear() {
-    while (listaSorteados.length > 0) {
-        let indiceSorteado1 = Math.floor(Math.random() * listaSorteados.length);
-        let nomeSorteado1 = listaSorteados[indiceSorteado1];
-        listaSorteados.splice(indiceSorteado1, 1);
-        
-        let indiceSorteado2 = Math.floor(Math.random() * listaSorteados.length);
-        let nomeSorteado2 = listaSorteados[indiceSorteado2];
-        listaSorteados.splice(indiceSorteado2, 1);
+    const { sorteioFinal } = pegarInfosDoHTML();
+    if (listaNomes.length < 3) {
+        alert("Adicione pelo menos tres pessoas para o sorteio!");
+        return;
+    }
 
-        alert(`O ${nomeSorteado1} tirou o ${nomeSorteado2}`);
+    let listaSorteio = [...listaNomes];
+    let embaralhado = listaSorteio.sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < embaralhado.length; i++) {
+        let pessoa1 = embaralhado[i];
+        let pessoa2 = embaralhado[(i + 1) % embaralhado.length];
+
+        sorteioFinal.innerHTML = sorteioFinal.innerHTML + `<p id="lista-sorteio">${pessoa1} -> ${pessoa2}</p>`
     }
 }
-function reiniciar() {
-    let listaSorteados = ['']
 
+function reiniciar() {
+    const { lista, sorteioFinal } = pegarInfosDoHTML();
+    document.getElementById('nome-amigo').value = '';
+    listaNomes = ([])
+    nomesSorteados = ([])
+    lista.innerHTML = ''
+    sorteioFinal.innerHTML = ''
 }
 
 function pegarInfosDoHTML() {
     let nome = document.getElementById('nome-amigo').value;
     let lista = document.getElementById('lista-amigos');
+    let sorteioFinal = document.getElementById('lista-sorteio');
 
     // limpar o placeHolder 
     document.getElementById('nome-amigo').value = '';
 
 
-    return { nome, lista};
+    return { nome, lista, sorteioFinal };
+}
+
+function removerNome() {
+    const { lista } = pegarInfosDoHTML();
+
+
+    const elemento = lista.querySelector(`#lista-amigos`);
+
+    if (elemento) {
+        elemento.remove();
+    }
 }
